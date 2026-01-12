@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block hide_logout %}{% endblock %}
+
+{% block title %}Internal Booking{% endblock %}
+
+{% block content %}
+
+<div class="internal-page">
+
+    <div class="role-section">
+        <button class="role-btn active" data-role="student">Student</button>
+        <button class="role-btn" data-role="faculty">Faculty</button>
+    </div>
+
+<div class="auth-section">
+    <a id="signupLink" href="/internal/student/signup/" class="auth-btn signup">
+        Sign Up
+    </a>
+    <a id="signinLink" href="/internal/student/signin/" class="auth-btn signin">
+        Sign In
+    </a>
+</div>
+
+<div class="back-btn-container">
+    <a href="{% url 'home' %}" class="back-btn">
+        ⬅ Back
+    </a>
+</div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const roleButtons = document.querySelectorAll(".role-btn");
+    const signupLink = document.getElementById("signupLink");
+    const signinLink = document.getElementById("signinLink");
+
+    roleButtons.forEach(button => {
+        button.addEventListener("click", () => {
+
+            roleButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            const role = button.dataset.role;
+
+            if (role === "student") {
+                signupLink.href = "/internal/student/signup/";
+                signinLink.href = "/internal/student/signin/";
+            } else {
+                signupLink.href = "/internal/faculty/signup/";
+                signinLink.href = "/internal/faculty/signin/";
+            }
+        });
+    });
+
+});
+</script>
+
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.internal-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.role-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.role-btn {
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    background: white;
+    color: black;
+}
+
+.role-btn.active {
+    background: #00e676;
+}
+
+.auth-section {
+    display: flex;
+    gap: 30px;
+}
+
+.auth-btn {
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.auth-btn.signup {
+    background: #00e676;
+}
+
+.auth-btn.signin {
+    background: white;
+}
+.back-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.back-btn {
+    background: #e53935;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+{% endblock %}

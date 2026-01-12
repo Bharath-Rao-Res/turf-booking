@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Strap & Score{% endblock %}
+
+{% block content %}
+
+<h1 class="gamer-title">STRAP &amp; SCORE</h1>
+
+
+<!-- Buttons -->
+<div class="buttons">
+    <a href="/internal/" class="btn btn-internal">Internal</a>
+    <a href="/external-slots/" class="btn btn-external">External</a>
+</div>
+
+<!-- Bottom Note -->
+<div class="note">
+    Internal – Only access to college students
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+   
+
+    /* Buttons container */
+    .buttons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    .btn {
+        padding: 16px 40px;
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-internal {
+        margin-top: 180px;
+        background: #00e676;
+        color: #000;
+    }
+
+    .btn-external {
+        margin-top: 180px;
+        background: #ff9100;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    /* Bottom note */
+    .note {
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+    opacity: 0.85;
+    text-align: center;
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+
+    /* Mobile fine-tuning */
+    @media (max-width: 480px) {
+        .curve-title text {
+            letter-spacing: 2px;
+        }
+    }
+
+    /* GAMING / NEON TITLE — HOME PAGE ONLY */
+.gamer-title {
+    font-size: clamp(2.8rem, 9vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-align: center;
+    margin-bottom: 40px;
+
+    background: linear-gradient(
+        90deg,
+        #e9e7e7,
+        #f8f8f8,
+        #ff4081,
+        #e9e9e9
+    );
+    background-size: 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 0 6px rgba(16, 192, 211, 0.949),
+        0 0 18px rgba(124,77,255,0.9),
+        0 0 36px rgba(255,64,129,0.9);
+
+    animation: neonMove 6s linear infinite;
+}
+
+@keyframes neonMove {
+    0% { background-position: 0%; }
+    100% { background-position: 300%; }
+}
+
+</style>
+{% endblock %}

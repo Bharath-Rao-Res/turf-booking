@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block hide_logout %}{% endblock %}
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+
+<div class="confirm-page">
+
+    <div class="confirm-card">
+
+        <div class="success-icon">✔</div>
+
+        <h2>Booking Confirmed</h2>
+
+        <p class="success-text">
+            Your turf booking has been successfully confirmed!
+        </p>
+
+        <div class="details-box">
+            <p><strong>Day:</strong> {{ day }}</p>
+            <p><strong>Slot:</strong> {{ slot }}</p>
+            <p><strong>Number of Persons:</strong> {{ num_persons }}</p>
+        </div>
+
+        <a href="/internal/" class="btn home-btn">
+            Go to Internal Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.confirm-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-card {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 35px 40px;
+    border-radius: 18px;
+    text-align: center;
+    color: white;
+    width: 100%;
+    max-width: 420px;
+}
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #00e676;
+    color: black;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+}
+
+.confirm-card h2 {
+    margin-bottom: 10px;
+}
+
+.success-text {
+    font-size: 15px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.details-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.details-box p {
+    margin: 6px 0;
+}
+
+.btn {
+    width: 100%;
+    height: 46px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-btn {
+    background: #00e676;
+    color: black;
+}
+
+/* Hide logout */
+a[href="/logout/"],
+.logout-btn {
+    display: none !important;
+}
+
+</style>
+{% endblock %}

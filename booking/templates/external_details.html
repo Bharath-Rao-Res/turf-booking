@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}External Details{% endblock %}
+
+{% block content %}
+
+<div class="details-page">
+
+    <h2>External Booking Details</h2>
+
+    <p class="info-text">
+        Day: <strong>{{ day|title }} ({{ date }})</strong><br>
+        Slot: <strong>{{ slot }}</strong>
+    </p>
+
+    <form method="post" action="/external-receipt/">
+        {% csrf_token %}
+
+        <input type="hidden" name="day" value="{{ day }}">
+        <input type="hidden" name="slot" value="{{ slot }}">
+
+        <!-- NAME -->
+        <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <!-- MOBILE -->
+        <input
+            id="mobile"
+            type="tel"
+            name="mobile"
+            placeholder="Enter mobile number"
+            pattern="[0-9]{10}"
+            required
+        >
+
+        <!-- PERSONS -->
+        <input
+            id="persons"
+            type="number"
+            name="persons"
+            placeholder="Number of persons (max 15)"
+            min="1"
+            max="15"
+            required
+        >
+
+        <!-- QR CODE SECTION -->
+        <div class="qr-section">
+            <img src="{% static 'booking/images/qr.png' %}" alt="Payment QR">
+            <p class="qr-text">Scan & Pay</p>
+        </div>
+        <!-- PAYMENT CONFIRM CHECK -->
+<div class="payment-confirm">
+    <label>
+        <input type="checkbox" id="paymentDone">
+        I have completed the payment
+    </label>
+</div>
+
+
+        <!-- BACK & NEXT BUTTONS -->
+        <div class="btn-row">
+            <a href="/external-slots/" class="nav-btn back">⬅ Back</a>
+            <button type="submit" class="nav-btn next" id="nextBtn" disabled>
+                Next ➡
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const nameInput = document.getElementById("name");
+    const mobileInput = document.getElementById("mobile");
+    const personsInput = document.getElementById("persons");
+    const paymentDone = document.getElementById("paymentDone");
+    const nextBtn = document.getElementById("nextBtn");
+
+    /* ---------- RESTORE ---------- */
+    if (sessionStorage.getItem("ext_name")) {
+        nameInput.value = sessionStorage.getItem("ext_name");
+        mobileInput.value = sessionStorage.getItem("ext_mobile");
+        personsInput.value = sessionStorage.getItem("ext_persons");
+    }
+
+    if (sessionStorage.getItem("ext_paid") === "yes") {
+        paymentDone.checked = true;
+        nextBtn.disabled = false;
+    }
+
+    /* ---------- SAVE INPUT ---------- */
+    nameInput.addEventListener("input", () => {
+        sessionStorage.setItem("ext_name", nameInput.value);
+    });
+
+    mobileInput.addEventListener("input", () => {
+        sessionStorage.setItem("ext_mobile", mobileInput.value);
+    });
+
+    personsInput.addEventListener("input", () => {
+        sessionStorage.setItem("ext_persons", personsInput.value);
+    });
+
+    /* ---------- PAYMENT CONFIRM ---------- */
+    paymentDone.addEventListener("change", () => {
+        if (paymentDone.checked) {
+            sessionStorage.setItem("ext_paid", "yes");
+            nextBtn.disabled = false;
+        } else {
+            sessionStorage.removeItem("ext_paid");
+            nextBtn.disabled = true;
+        }
+    });
+
+});
+</script>
+
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.details-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.details-page h2 {
+    margin-bottom: 10px;
+}
+
+.info-text {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+form {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+input {
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+input::placeholder {
+    color: #555;
+}
+
+/* ===== QR SECTION ===== */
+.qr-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.qr-section img {
+    width: 160px;
+    height: 160px;
+    padding: 10px;
+    background: white;
+    border-radius: 12px;
+}
+
+.qr-text {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* BUTTON ROW */
+.btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+/* SAME SIZE BUTTONS */
+.nav-btn {
+    width: 160px;
+    height: 48px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* BACK */
+.nav-btn.back {
+    background: #e53935;
+    color: white;
+}
+
+/* NEXT */
+.nav-btn.next {
+    background: #00e676;
+    color: black;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    .btn-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.payment-confirm {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+.payment-confirm label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.payment-confirm input {
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+
+</style>
+{% endblock %}

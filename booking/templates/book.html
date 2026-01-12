@@ -1,0 +1,8 @@
+<form method="POST">
+    {% csrf_token %}
+    Name: <input type="text" name="name"><br>
+    Phone: <input type="text" name="phone"><br>
+    Date: <input type="date" name="date"><br>
+    Time Slot: <input type="text" name="time_slot"><br>
+    <button type="submit">Book Now</button>
+</form>

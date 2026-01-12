@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Sign Up{% endblock %}
+
+{% block content %}
+
+<div class="signup-page">
+
+    <h1>Student Sign Up</h1>
+    <p class="subtitle">Create your internal booking account</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- 🔴 ERROR MESSAGE (EMAIL ALREADY REGISTERED) -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-msg">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            required
+        >
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Student Email (@student.tce.edu)"
+            pattern=".+@student\.tce\.edu"
+            required
+        >
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Create Password"
+            required
+        >
+
+        <button type="submit" class="btn primary">
+            Sign Up
+        </button>
+
+    </form>
+
+    <!-- LOGOUT BUTTON (unchanged as per your file) -->
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn logout-btn">
+            Logout
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.signup-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.signup-page h1 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.signup-page .subtitle {
+    color: #ddd;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.signup-page form {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.signup-page input {
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+.signup-page input::placeholder {
+    color: #555;
+}
+
+.btn {
+    height: 48px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: #00e676;
+    color: black;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    background: #e53935;
+    color: white;
+}
+
+/* 🔴 ERROR MESSAGE STYLE */
+.error-msg {
+    color: #ff5252;
+    background: rgba(0,0,0,0.6);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+</style>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}External Slots{% endblock %}
+
+{% block content %}
+
+<div class="external-page">
+
+    <!-- TOP SECTION -->
+    <div class="top-section">
+        <h2>Select Day</h2>
+
+        <div class="day-buttons">
+            <a href="?day=today"
+               class="day-btn {% if selected_day == 'today' %}active{% endif %}">
+                {{ today_label }}
+            </a>
+
+            <a href="?day=tomorrow"
+               class="day-btn {% if selected_day == 'tomorrow' %}active{% endif %}">
+                {{ tomorrow_label }}
+            </a>
+        </div>
+    </div>
+
+    <!-- FORM START -->
+    <form method="get" action="/external-details/">
+
+        <!-- hidden values -->
+        <input type="hidden" name="day" value="{{ selected_day }}">
+        <input type="hidden" name="slot" id="selectedSlot">
+
+        <!-- MIDDLE SECTION -->
+        <div class="middle-section">
+            <h3>Available Slots</h3>
+
+            <div class="slots-container">
+                {% for slot in slots %}
+                    <button type="button"
+                            class="slot-btn"
+                            data-slot="{{ slot }}">
+                        {{ slot }}
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- BOTTOM SECTION -->
+        <div class="bottom-section">
+            <a href="/home/" class="nav-btn back">⬅ Back</a>
+
+            <button type="submit"
+                    class="nav-btn next"
+                    id="nextBtn"
+                    disabled>
+                Next ➡
+            </button>
+        </div>
+
+    </form>
+    <!-- FORM END -->
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slotButtons = document.querySelectorAll(".slot-btn");
+    const dayButtons = document.querySelectorAll(".day-btn");
+    const nextBtn = document.getElementById("nextBtn");
+    const selectedSlotInput = document.getElementById("selectedSlot");
+
+    /* ---------- RESTORE PREVIOUS SELECTION ---------- */
+    const savedDay = sessionStorage.getItem("selectedDay");
+    const savedSlot = sessionStorage.getItem("selectedSlot");
+
+    if (savedSlot) {
+        slotButtons.forEach(btn => {
+            if (btn.dataset.slot === savedSlot) {
+                btn.classList.add("selected");
+                selectedSlotInput.value = savedSlot;
+                nextBtn.disabled = false;
+            }
+        });
+    }
+
+    /* ---------- SLOT CLICK ---------- */
+    slotButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            slotButtons.forEach(btn => btn.classList.remove("selected"));
+            button.classList.add("selected");
+
+            selectedSlotInput.value = button.dataset.slot;
+            sessionStorage.setItem("selectedSlot", button.dataset.slot);
+
+            nextBtn.disabled = false;
+        });
+    });
+
+});
+</script>
+    
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.external-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.top-section {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.day-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.day-btn {
+    padding: 14px 22px;
+    background: #ffffff;
+    color: #000;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.day-btn.active {
+    background: #00e676;
+}
+
+.middle-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 600px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.slot-btn {
+    padding: 14px 10px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #ffffff;
+    font-weight: bold;
+}
+
+.slot-btn:hover,
+.slot-btn.selected {
+    background: #00e676;
+    color: black;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 20px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.nav-btn {
+    min-width: 140px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    border: none;
+}
+
+.nav-btn.back {
+    background: #e53935;
+}
+
+.nav-btn.next {
+    background: #00e676;
+}
+
+.nav-btn.next:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+@media (max-width: 420px) {
+    .slots-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+{% endblock %}

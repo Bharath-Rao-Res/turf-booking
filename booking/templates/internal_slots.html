@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block hide_logout %}{% endblock %}
+{% block title %}Internal Slots{% endblock %}
+
+{% block content %}
+
+<div class="internal-page">
+
+    <!-- TOP -->
+    <div class="top-section">
+        <h2>Select Day</h2>
+
+        <div class="day-buttons">
+            <a href="?day=today"
+               class="day-btn {% if selected_day == 'today' %}active{% endif %}">
+                {{ today_label }}
+            </a>
+
+            <a href="?day=tomorrow"
+               class="day-btn {% if selected_day == 'tomorrow' %}active{% endif %}">
+                {{ tomorrow_label }}
+            </a>
+        </div>
+    </div>
+
+    <!-- SLOTS -->
+    <div class="middle-section">
+        <h3>Available Slots</h3>
+
+        <div class="slots-container">
+            {% for slot in slots %}
+                {% if slot in booked_slots %}
+                    <!-- ❌ BOOKED SLOT -->
+                    <button class="slot-btn disabled" disabled>
+                        {{ slot }}
+                    </button>
+                {% else %}
+                    <!-- ✅ AVAILABLE SLOT -->
+                    <button class="slot-btn" data-slot="{{ slot }}">
+                        {{ slot }}
+                    </button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-section">
+        <a href="/internal/" class="nav-btn back">⬅ Back</a>
+
+        <button class="nav-btn next" id="nextBtn" disabled>
+            Next →
+        </button>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slots = document.querySelectorAll(".slot-btn:not(.disabled)");
+    const nextBtn = document.getElementById("nextBtn");
+    let selectedSlot = null;
+
+    slots.forEach(slot => {
+        slot.addEventListener("click", () => {
+
+            slots.forEach(s => s.classList.remove("selected"));
+            slot.classList.add("selected");
+
+            selectedSlot = slot.dataset.slot;
+            nextBtn.disabled = false;
+        });
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (!selectedSlot) return;
+
+        const day = "{{ selected_day }}";
+
+        window.location.href =
+            "{% url 'internal_details' %}?day=" + day + "&slot=" + encodeURIComponent(selectedSlot);
+    });
+
+});
+</script>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.internal-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-section {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.day-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.day-btn {
+    padding: 14px 22px;
+    background: white;
+    color: black;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.day-btn.active {
+    background: #00e676;
+}
+
+.middle-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.slot-btn {
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.slot-btn.selected {
+    background: #00e676;
+}
+
+/* 🔒 BOOKED SLOT STYLE */
+.slot-btn.disabled {
+    background: #9e9e9e;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 20px;
+    max-width: 520px;
+    margin: auto;
+}
+
+.nav-btn {
+    width: 140px;
+    height: 48px;
+    border-radius: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    text-decoration: none;
+}
+
+.nav-btn.back {
+    background: #e53935;
+    color: white;
+}
+
+.nav-btn.next {
+    background: #00e676;
+    color: black;
+}
+
+.nav-btn.next:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* HIDE LOGOUT */
+a[href="/logout/"],
+.logout-btn {
+    display: none !important;
+}
+
+</style>
+{% endblock %}

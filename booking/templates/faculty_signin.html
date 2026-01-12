@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Sign In{% endblock %}
+
+{% block content %}
+
+<div class="signin-container">
+
+    <h2>Faculty Sign In</h2>
+    <p class="subtitle">Access your faculty account</p>
+
+    <!-- ERROR MESSAGES -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="error-msg">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            required
+        >
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit" class="btn signin-btn">
+            Sign In
+        </button>
+
+        <a href="/internal/" class="nav-btn back">
+    ← Back
+</a>
+
+    </form>
+
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.signin-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-container h2 {
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    margin-bottom: 20px;
+    color: #fdfbfb;
+}
+
+form {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+input::placeholder {
+    color: #666;
+}
+
+.btn {
+    height: 48px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.signin-btn {
+    background: #00e676;
+    color: black;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    background: #e53935;
+    color: white;
+}
+
+.error-msg {
+    width: 320px;
+    background: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.nav-btn {
+    width: 260px;
+    height: 48px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* SIGN IN */
+.nav-btn.next {
+    background: #00e676;
+    color: black;
+}
+
+/* BACK */
+.nav-btn.back {
+    background: #e53935;
+    color: white;
+    width: 320px;
+}
+
+/* MOBILE */
+@media (max-width: 420px) {
+    form {
+        width: 90%;
+    }
+
+    .error-msg {
+        width: 90%;
+    }
+}
+
+</style>
+{% endblock %}

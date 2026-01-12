@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Let's Play</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 200vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(#000000eb, #070c0e, #0d1214);
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .text {
+            position: fixed;
+            top: -20vh;
+            width: 100%;
+            text-align: center;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            animation: scrollText 1s ease-out forwards;
+        }
+
+        @keyframes scrollText {
+            from {
+                top: -20vh;
+            }
+            to {
+                top: 35vh;
+            }
+        }
+
+        .btn {
+            position: fixed;
+            bottom: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 16px 40px;
+            background: #00ff88;
+            color: #000;
+            text-decoration: none;
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            font-weight: bold;
+            border-radius: 50px;
+            display: none;
+            animation: bounce 1s ease, pulse 2s infinite;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+            60% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.7); }
+            70% { box-shadow: 0 0 0 18px rgba(0,255,136,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); }
+        }
+
+        /* Extra tuning for small mobiles */
+        @media (max-width: 480px) {
+            .text {
+                letter-spacing: 1.5px;
+            }
+
+            .btn {
+                padding: 14px 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="text">LET’S PLAY ⚽</div>
+
+    <!-- Change /book/ if your booking page URL is different -->
+    <a href="/home/" class="btn" id="bookBtn">Book Now</a>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('bookBtn').style.display = 'block';
+        }, 2200);
+    </script>
+
+</body>
+</html>
