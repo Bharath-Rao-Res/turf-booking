@@ -88,11 +88,15 @@ document.getElementById("personsFile").addEventListener("change", function () {
 
 .details-page {
     min-height: 100vh;
+    background-image: url("{% static 'booking/images/turf_bg.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .details-card {
     background: rgba(55, 42, 42, 0.65);
     padding: 30px 35px;
