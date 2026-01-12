@@ -104,6 +104,7 @@ document.getElementById("personsFile").addEventListener("change", function () {
     width: 100%;
     max-width: 420px;
     color: white;
+    margin: 16px;
 }
 
 .details-card h2 {
@@ -234,6 +235,26 @@ a[href="/logout/"],
     font-size: 13px;
     color: #ddd;
 }
+@media (max-width: 600px) {
 
+    .details-card {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .btn {
+        height: 44px;
+        font-size: 14px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+}
+    
 </style>
 {% endblock %}
